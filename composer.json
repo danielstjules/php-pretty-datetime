@@ -1,0 +1,17 @@
+{
+    "name": "php-pretty-dates/php-pretty-dates",
+    "description": "Generates human-readable strings for PHP DateTime objects",
+    "keywords": ["human", "readable", "pretty", "datetime", "date", "time", "string"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel St. Jules",
+            "email": "danielst.jules@gmail.com",
+            "homepage": "http://www.danielstjules.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
