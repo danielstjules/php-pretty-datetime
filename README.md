@@ -1,7 +1,36 @@
 php-pretty-datetime
 ===================
 
-Generates human-readable strings for PHP DateTime objects.
+Generates human-readable strings for PHP DateTime objects. It handles dates in the past and future. For future dates, it uses the format 'In x unit', ie: 'In 1 minute'. For dates in the past, it uses 'x unit ago', ie: '2 years ago'.
+
+Note: Comparison of dates, for those beyond a day apart, uses the difference between their Unix timestamps.
+
+Usage
+-----
+
+    require 'php-pretty-datetime/src/pretty_datetime.php';
+
+    PrettyDateTime::parse(new DateTime('now')); // Moments ago
+
+    PrettyDateTime::parse(new DateTime('+ 59 second')); // Seconds from now
+
+    PrettyDateTime::parse(new DateTime('+ 1 minute')); // In 1 minute
+
+    PrettyDateTime::parse(new DateTime('- 59 minute')); // 59 minutes ago
+
+    // You can supply a secondary argument to provide an alternate reference 
+    // DateTime. The default is the current DateTime, ie: DateTime('now'). In 
+    // addition, it takes into account the day of each DateTime. So in the next 
+    // two examples, even though they're only a second apart, 'Yesterday' and 
+    // 'Tomorrow' will be displayed
+
+    $now = new DateTime('1991-05-18 00:00:00 UTC');
+    $dateTime = new DateTime('1991-05-17 23:59:59 UTC');
+    PrettyDateTime::parse($dateTime, $now); // Yesterday
+
+    $now = new DateTime('1991-05-17 23:59:59 UTC');
+    $dateTime = new DateTime('1991-05-18 00:00:00 UTC');
+    PrettyDateTime::parse($dateTime, $now) // Tomorrow
 
 Tests
 -----
