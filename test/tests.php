@@ -55,6 +55,16 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         $this->assertEquals('1 hour ago', $prettyDateTime);
     }
 
+    // Test that DateTimes 2..23 hours earlier all say 'In x hours'
+    public function testSameDayHoursAgo() {
+        for ($i = 2; $i < 24; $i++) {
+            $dateTime = clone $this->beforeMidnight;
+            $dateTime->modify("- $i hour");
+            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
+            $this->assertEquals("$i hours ago", $prettyDateTime);
+        }
+    }
+
     // Testing DateTimes that will occur in the same day
 
     public function testSameDayInUnderAMinute() {
@@ -88,6 +98,18 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         $this->assertEquals('In 1 hour', $prettyDateTime);
     }
 
+    // Test that DateTimes 2..23 hours later all say 'In x hours'
+    public function testSameDayHoursFromNow() {
+        for ($i = 2; $i < 24; $i++) {
+            $dateTime = clone $this->midnight;
+            $dateTime->modify("+ $i hour");
+            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
+            $this->assertEquals("In $i hours", $prettyDateTime);
+        }
+    }
+
+    // Test Tomorrow and Today
+
     public function testTomorrow() {
         $tomorrow = new DateTime('tomorrow');
         $this->assertEquals('Tomorrow', PrettyDateTime::parse($tomorrow));
@@ -96,6 +118,48 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
     public function testYesterday() {
         $yesterday = new DateTime('yesterday');
         $this->assertEquals('Yesterday', PrettyDateTime::parse($yesterday));
+    }
+
+    // Within a week
+
+    // Within the past 2..7 days
+    public function testPastSevenDays() {
+        for ($i = 2; $i <= 7; $i++) {
+            $dateTime = new DateTime("- $i day");
+            $prettyDateTime = PrettyDateTime::parse($dateTime);
+            $this->assertEquals("$i days ago", $prettyDateTime);
+        }
+    }
+
+    // In the next 2..7 days
+    public function testInSevenDays() {
+        for ($i = 2; $i <= 7; $i++) {
+            $dateTime = new DateTime("+ $i day");
+            $prettyDateTime = PrettyDateTime::parse($dateTime);
+            $this->assertEquals("In $i days", $prettyDateTime);
+        }
+    }
+
+    // Within 5 weeks
+
+    // Within the past 2..5 weeks
+    public function testPastFiveWeeks() {
+        for ($i = 2; $i <= 7; $i++) {
+            $days = 7 * $i;
+            $dateTime = new DateTime("- $days day");
+            $prettyDateTime = PrettyDateTime::parse($dateTime);
+            $this->assertEquals("$i weeks ago", $prettyDateTime);
+        }
+    }
+
+    // In the next 2..5 weeks
+    public function testInFiveWeeks() {
+        for ($i = 2; $i <= 7; $i++) {
+            $days = 7 * $i;
+            $dateTime = new DateTime("+ $days day");
+            $prettyDateTime = PrettyDateTime::parse($dateTime);
+            $this->assertEquals("In $i weeks", $prettyDateTime);
+        }
     }
 }
 

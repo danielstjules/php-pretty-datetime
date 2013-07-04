@@ -57,6 +57,20 @@ class PrettyDateTime {
         // Tomorrow
         if (date('Y/m/d', strtotime('tomorrow')) == $dateTime->format('Y/m/d'))
             return 'Tomorrow';
+
+        // Within 7 days
+        if ($absDiff / self::DAY <= 7)
+            return self::prettyFormat($difference / self::DAY, 'day');
+
+        // Within 5 weeks
+        if ($absDiff / self::WEEK <= 5 * self::WEEK)
+            return self::prettyFormat($difference / self::WEEK, 'week');
+
+        // Within a year
+        if ($absDiff / self::MONTH <= 12 * self::MONTH)
+            return self::prettyFormat($difference / self::MONTH, 'month');
+
+        return self::prettyFormat($difference / self::YEAR);
     }
 }
 
