@@ -22,99 +22,60 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Moments ago', PrettyDateTime::parse($now, $now));
     }
 
-    // Testing DateTimes that occurred in the past within the same day
+    // Testing DateTimes that occurred in the past
 
-    public function testSameDayUnderMinuteAgo() {
+    /**
+     * @dataProvider pastDateTimesAndStrings
+     */
+    public function testDateTimesInThePast($timeAgo, $prettyString) {
         $dateTime = clone $this->beforeMidnight;
-        $dateTime->modify('- 59 second');
+        $dateTime->modify($timeAgo);
         $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-        $this->assertEquals('Moments ago', $prettyDateTime);
+        $this->assertEquals($prettyString, $prettyDateTime);
     }
 
-    public function testSameDayMinuteAgo() {
-        $dateTime = clone $this->beforeMidnight;
-        $dateTime->modify('- 1 minute');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-        $this->assertEquals('1 minute ago', $prettyDateTime);
-    }
+    public function pastDateTimesAndStrings() {
+        $testData = array(
+            array('- 59 second', 'Moments ago'),
+            array('- 1 minute', '1 minute ago'),
+            array('- 1 hour', '1 hour ago'),
+            array(sprintf('- %d second', PrettyDateTime::YEAR), '1 year ago')
+        );
 
-    // Test that DateTimes 2..59 minutes prior all say 'x minutes ago'
-    public function testSameDayMinutesAgo() {
+        // Test that DateTimes 2..59 minutes prior all say 'x minutes ago'
         for ($i = 2; $i < 60; $i++) {
-            $dateTime = clone $this->beforeMidnight;
-            $dateTime->modify("- $i minute");
-            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-            $this->assertEquals("$i minutes ago", $prettyDateTime);
+            array_push($testData, array("- $i minute", "$i minutes ago"));
         }
-    }
 
-    public function testSameDayHourAgo() {
-        $dateTime = clone $this->beforeMidnight;
-        $dateTime->modify('- 1 hour');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-        $this->assertEquals('1 hour ago', $prettyDateTime);
-    }
-
-    // Test that DateTimes 2..23 hours earlier all say 'In x hours'
-    public function testSameDayHoursAgo() {
+        // Test that DateTimes 2..23 hours earlier all say 'In x hours'
         for ($i = 2; $i < 24; $i++) {
-            $dateTime = clone $this->beforeMidnight;
-            $dateTime->modify("- $i hour");
-            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-            $this->assertEquals("$i hours ago", $prettyDateTime);
+            array_push($testData, array("- $i hour", "$i hours ago"));
         }
-    }
 
-    // Testing DateTimes that will occur in the same day
-
-    public function testSameDayInUnderAMinute() {
-        $dateTime = clone $this->midnight;
-        $dateTime->modify('+ 59 second');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
-        $this->assertEquals('Seconds from now', $prettyDateTime);
-    }
-
-    public function testSameDayInAMinute() {
-        $dateTime = clone $this->midnight;
-        $dateTime->modify('+ 1 minute');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
-        $this->assertEquals('In 1 minute', $prettyDateTime);
-    }
-
-    // Test that DateTimes 2..59 minutes later all say 'In x minutes'
-    public function testSameDayMinutesFromNow() {
-        for ($i = 2; $i < 60; $i++) {
-            $dateTime = clone $this->midnight;
-            $dateTime->modify("+ $i minute");
-            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
-            $this->assertEquals("In $i minutes", $prettyDateTime);
+        // Within the past 2..7 days
+        for ($i = 2; $i <= 7; $i++) {
+            array_push($testData, array("- $i day", "$i days ago"));
         }
-    }
 
-    public function testSameDayHourFromNow() {
-        $dateTime = clone $this->midnight;
-        $dateTime->modify('+ 1 hour');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
-        $this->assertEquals('In 1 hour', $prettyDateTime);
-    }
-
-    // Test that DateTimes 2..23 hours later all say 'In x hours'
-    public function testSameDayHoursFromNow() {
-        for ($i = 2; $i < 24; $i++) {
-            $dateTime = clone $this->midnight;
-            $dateTime->modify("+ $i hour");
-            $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
-            $this->assertEquals("In $i hours", $prettyDateTime);
+        // Within the past 2..5 weeks
+        for ($i = 2; $i <= 5; $i++) {
+            $days = 7 * $i;
+            array_push($testData, array("- $days day", "$i weeks ago"));
         }
-    }
 
-    // Test Tomorrow and Yesterday
+        // Within the past 2..11 months
+        for ($i = 2; $i <= 11; $i++) {
+            $seconds = PrettyDateTime::MONTH * $i + PrettyDateTime::HOUR;
+            array_push($testData, array("- $seconds second", "$i months ago"));
+        }
 
-    public function testTomorrow() {
-        $dateTime = clone $this->beforeMidnight;
-        $dateTime->modify('+ 1 second');
-        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
-        $this->assertEquals('Tomorrow', $prettyDateTime);
+        // Within the past 2..20 years
+        for ($i = 2; $i <= 20; $i++) {
+            $seconds = PrettyDateTime::YEAR * $i;
+            array_push($testData, array("- $seconds second", "$i years ago"));
+        }
+
+        return $testData;
     }
 
     public function testYesterday() {
@@ -124,107 +85,69 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Yesterday', $prettyDateTime);
     }
 
-    // Within a week
+    // Testing DateTimes that will occur in the future
 
-    // Within the past 2..7 days
-    public function testPastSevenDays() {
-        for ($i = 2; $i <= 7; $i++) {
-            $dateTime = new DateTime("- $i day");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("$i days ago", $prettyDateTime);
-        }
+    /**
+     * @dataProvider futureDateTimesAndStrings
+     */
+    public function testDateTimesInTheFuture($timeFromNow, $prettyString) {
+        $dateTime = clone $this->midnight;
+        $dateTime->modify($timeFromNow);
+        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
+        $this->assertEquals($prettyString, $prettyDateTime);
     }
 
-    // In the next 2..7 days
-    public function testInSevenDays() {
-        for ($i = 2; $i <= 7; $i++) {
-            $dateTime = new DateTime("+ $i day");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("In $i days", $prettyDateTime);
+    public function futureDateTimesAndStrings() {
+        $testData = array(
+            array('+ 59 second', 'Seconds from now'),
+            array('+ 1 minute', 'In 1 minute'),
+            array('+ 1 hour', 'In 1 hour'),
+            array(sprintf('+ %d second', PrettyDateTime::YEAR), 'In 1 year')
+        );
+
+        // Test that DateTimes 2..59 minutes later all say 'In x minutes'
+        for ($i = 2; $i < 60; $i++) {
+            array_push($testData, array("+ $i minute", "In $i minutes"));
         }
-    }
 
-    // Within 5 weeks
+        // Test that DateTimes 2..23 hours earlier all say 'In x hours'
+        for ($i = 2; $i < 24; $i++) {
+            array_push($testData, array("+ $i hour", "In $i hours"));
+        }
 
-    // Within the past 2..5 weeks
-    public function testPastFiveWeeks() {
+        // In the next 2..7 days
+        for ($i = 2; $i <= 7; $i++) {
+            array_push($testData, array("+ $i day", "In $i days"));
+        }
+
+        // In the next 2..5 weeks
         for ($i = 2; $i <= 5; $i++) {
             $days = 7 * $i;
-            $dateTime = new DateTime("- $days day");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("$i weeks ago", $prettyDateTime);
+            array_push($testData, array("+ $days day", "In $i weeks"));
         }
-    }
 
-    // In the next 2..5 weeks
-    public function testInFiveWeeks() {
-        for ($i = 2; $i <= 5; $i++) {
-            $days = 7 * $i;
-            $dateTime = new DateTime("+ $days day");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("In $i weeks", $prettyDateTime);
-        }
-    }
-
-    // Within a year
-
-    // Within the past 2..11 months
-    public function testPastElevenMonths() {
-        for ($i = 2; $i <= 11; $i++) {
-            $seconds = PrettyDateTime::MONTH * $i + PrettyDateTime::HOUR;
-            $dateTime = new DateTime("- $seconds second");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("$i months ago", $prettyDateTime);
-        }
-    }
-
-    // In the next 2..11 months
-    public function testInElevenMonths() {
+        // In the next 2..11 months
         for ($i = 2; $i <= 11; $i++) {
             $seconds = PrettyDateTime::MONTH * $i;
-            $dateTime = new DateTime("+ $seconds second");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("In $i months", $prettyDateTime);
+            array_push($testData, array("+ $seconds second", "In $i months"));
         }
-    }
 
-    // Within 10 years
-
-    // Last year
-    public function testYearAgo() {
-        $seconds = PrettyDateTime::YEAR;
-        $dateTime = new DateTime("- $seconds second");
-        $prettyDateTime = PrettyDateTime::parse($dateTime);
-        $this->assertEquals("1 year ago", $prettyDateTime);
-    }
-
-    // Next year
-    public function testYearFromNow() {
-        $seconds = PrettyDateTime::YEAR;
-        $dateTime = new DateTime("+ $seconds second");
-        $prettyDateTime = PrettyDateTime::parse($dateTime);
-        $this->assertEquals("In 1 year", $prettyDateTime);
-    }
-
-    // Within the past 2..10 years
-    public function testPastTenYears() {
-        for ($i = 2; $i <= 10; $i++) {
+        // In the next 2..20 years
+        for ($i = 2; $i <= 20; $i++) {
             $seconds = PrettyDateTime::YEAR * $i;
-            $dateTime = new DateTime("- $seconds second");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("$i years ago", $prettyDateTime);
+            array_push($testData, array("+ $seconds second", "In $i years"));
         }
+
+        return $testData;
     }
 
-    // In the next 2..10 years
-    public function testInTenYears() {
-        for ($i = 2; $i <= 10; $i++) {
-            $seconds = PrettyDateTime::YEAR * $i;
-            $dateTime = new DateTime("+ $seconds second");
-            $prettyDateTime = PrettyDateTime::parse($dateTime);
-            $this->assertEquals("In $i years", $prettyDateTime);
-        }
+    public function testTomorrow() {
+        $dateTime = clone $this->beforeMidnight;
+        $dateTime->modify('+ 1 second');
+        $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
+        $this->assertEquals('Tomorrow', $prettyDateTime);
     }
+
 }
 
 ?>
