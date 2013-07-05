@@ -1,5 +1,5 @@
 {
-    "name": "danielstjules/php-pretty-dates",
+    "name": "danielstjules/php-pretty-datetime",
     "description": "Generates human-readable strings for PHP DateTime objects",
     "keywords": ["human", "readable", "pretty", "datetime", "date", "time", "string"],
     "license": "MIT",
