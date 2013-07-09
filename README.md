@@ -41,3 +41,8 @@ Tests
 From the project directory, tests can be ran using:
 
     phpunit
+
+License
+-------
+
+Released under the MIT License - see `LICENSE.txt` for details.
