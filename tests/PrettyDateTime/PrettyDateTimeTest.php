@@ -1,7 +1,9 @@
 <?php
 
-$base = realpath(dirname(__FILE__) . '/..');
-require("$base/src/pretty_datetime.php");
+$base = realpath(dirname(__FILE__) . '/../..');
+require("$base/src/PrettyDateTime/PrettyDateTime.php");
+
+use PrettyDateTime\PrettyDateTime;
 
 class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
 

@@ -8,7 +8,8 @@ Note: Comparison of dates, for those beyond a day apart, uses the difference bet
 Usage
 -----
 
-    require 'php-pretty-datetime/src/pretty_datetime.php';
+    require 'path/to/php-pretty-datetime/src/PrettyDateTime/PrettyDateTime.php';
+    use PrettyDateTime\PrettyDateTime;
 
     PrettyDateTime::parse(new DateTime('now')); // Moments ago
 
@@ -18,10 +19,10 @@ Usage
 
     PrettyDateTime::parse(new DateTime('- 59 minute')); // 59 minutes ago
 
-    // You can supply a secondary argument to provide an alternate reference 
-    // DateTime. The default is the current DateTime, ie: DateTime('now'). In 
-    // addition, it takes into account the day of each DateTime. So in the next 
-    // two examples, even though they're only a second apart, 'Yesterday' and 
+    // You can supply a secondary argument to provide an alternate reference
+    // DateTime. The default is the current DateTime, ie: DateTime('now'). In
+    // addition, it takes into account the day of each DateTime. So in the next
+    // two examples, even though they're only a second apart, 'Yesterday' and
     // 'Tomorrow' will be displayed
 
     $now = new DateTime('1991-05-18 00:00:00 UTC');
@@ -37,4 +38,4 @@ Tests
 
 From the project directory, tests can be ran using:
 
-    phpunit --verbose test/tests.php
+    phpunit
