@@ -36,6 +36,8 @@ Usage
 Tests
 -----
 
+[![Build Status](https://travis-ci.org/danielstjules/php-pretty-datetime.png)](https://travis-ci.org/danielstjules/php-pretty-datetime)
+
 From the project directory, tests can be ran using:
 
     phpunit
