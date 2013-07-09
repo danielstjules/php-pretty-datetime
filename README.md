@@ -8,7 +8,22 @@ Note: Comparison of dates, for those beyond a day apart, uses the difference bet
 Usage
 -----
 
-    require 'path/to/php-pretty-datetime/src/PrettyDateTime/PrettyDateTime.php';
+If you're using Composer to manage dependencies, you can include the following in your composer.json file:
+
+    "require": {
+        "danielstjules/php-pretty-datetime": "dev-master"
+    }
+
+Then, after running `composer update` or `php composer.phar update`, you can load the class using Composer's autoloading:
+
+    require 'vendor/autoload.php';
+
+Otherwise, you can simply require the file directly:
+
+    require_once 'path/to/php-pretty-datetime/src/PrettyDateTime/PrettyDateTime.php';
+
+And in either case, it can be used as such:
+
     use PrettyDateTime\PrettyDateTime;
 
     PrettyDateTime::parse(new DateTime('now')); // Moments ago
