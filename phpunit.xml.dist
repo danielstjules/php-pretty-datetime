@@ -5,7 +5,7 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="PrettyDateTime">
-            <directory>tests/PrettyDateTime</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,14 +1,13 @@
 <?php
 
-$base = realpath(dirname(__FILE__) . '/../..');
-require("$base/src/PrettyDateTime/PrettyDateTime.php");
+require __DIR__ . '/../src/PrettyDateTime.php';
 
 use PrettyDateTime\PrettyDateTime;
 
 class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-        // midnight let's us test dates in the future, and with beforeMidnight,
+        // midnight lets us test dates in the future, and with beforeMidnight,
         // those in the past
         $this->midnight = new DateTime('1991-05-18 00:00:00 UTC');
         $this->beforeMidnight = new DateTime('1991-05-18 23:59:59 UTC');
@@ -151,5 +150,3 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
     }
 
 }
-
-?>

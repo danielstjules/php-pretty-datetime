@@ -105,5 +105,3 @@ class PrettyDateTime {
         return self::prettyFormat($difference / self::YEAR, 'year');
     }
 }
-
-?>
