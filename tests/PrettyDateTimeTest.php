@@ -4,21 +4,24 @@ require __DIR__ . '/../src/PrettyDateTime.php';
 
 use PrettyDateTime\PrettyDateTime;
 
-class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
-
-    protected function setUp() {
+class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase
+{
+    protected function setUp()
+    {
         // midnight lets us test dates in the future, and with beforeMidnight,
         // those in the past
         $this->midnight = new DateTime('1991-05-18 00:00:00 UTC');
         $this->beforeMidnight = new DateTime('1991-05-18 23:59:59 UTC');
     }
 
-    public function testSingleDateTime() {
+    public function testSingleDateTime()
+    {
         $now = new DateTime('now');
         $this->assertEquals('Moments ago', PrettyDateTime::parse($now));
     }
 
-    public function testSameDateTime() {
+    public function testSameDateTime()
+    {
         $now = new DateTime('now');
         $this->assertEquals('Moments ago', PrettyDateTime::parse($now, $now));
     }
@@ -28,14 +31,16 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
     /**
      * @dataProvider pastDateTimesAndStrings
      */
-    public function testDateTimesInThePast($timeAgo, $prettyString) {
+    public function testDateTimesInThePast($timeAgo, $prettyString)
+    {
         $dateTime = clone $this->beforeMidnight;
         $dateTime->modify($timeAgo);
         $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
         $this->assertEquals($prettyString, $prettyDateTime);
     }
 
-    public function pastDateTimesAndStrings() {
+    public function pastDateTimesAndStrings()
+    {
         $testData = array(
             array('- 59 second', 'Moments ago'),
             array('- 1 minute', '1 minute ago'),
@@ -79,7 +84,8 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         return $testData;
     }
 
-    public function testYesterday() {
+    public function testYesterday()
+    {
         $dateTime = clone $this->midnight;
         $dateTime->modify('- 1 second');
         $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
@@ -91,14 +97,16 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
     /**
      * @dataProvider futureDateTimesAndStrings
      */
-    public function testDateTimesInTheFuture($timeFromNow, $prettyString) {
+    public function testDateTimesInTheFuture($timeFromNow, $prettyString)
+    {
         $dateTime = clone $this->midnight;
         $dateTime->modify($timeFromNow);
         $prettyDateTime = PrettyDateTime::parse($dateTime, $this->midnight);
         $this->assertEquals($prettyString, $prettyDateTime);
     }
 
-    public function futureDateTimesAndStrings() {
+    public function futureDateTimesAndStrings()
+    {
         $testData = array(
             array('+ 59 second', 'Seconds from now'),
             array('+ 1 minute', 'In 1 minute'),
@@ -142,11 +150,11 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase {
         return $testData;
     }
 
-    public function testTomorrow() {
+    public function testTomorrow()
+    {
         $dateTime = clone $this->beforeMidnight;
         $dateTime->modify('+ 1 second');
         $prettyDateTime = PrettyDateTime::parse($dateTime, $this->beforeMidnight);
         $this->assertEquals('Tomorrow', $prettyDateTime);
     }
-
 }
