@@ -5,38 +5,31 @@ Generates human-readable strings for PHP DateTime objects. It handles dates in t
 
 Note: Comparison of dates, for those beyond a day apart, uses the difference between their Unix timestamps.
 
-Usage
------
+## Installation
 
-If you're using Composer to manage dependencies, you can include the following in your composer.json file:
+If you're using Composer to manage dependencies, you can include the following
+in your composer.json file:
 
-    "require": {
-        "danielstjules/php-pretty-datetime": "dev-master"
-    }
-
-Then, after running `composer update` or `php composer.phar update`, you can load the class using Composer's autoloading:
-
-```php
-require 'vendor/autoload.php';
+```
+"require": {
+    "danielstjules/php-pretty-datetime": "dev-master"
+}
 ```
 
 Otherwise, you can simply require the file directly:
 
 ```php
-require_once 'path/to/php-pretty-datetime/src/PrettyDateTime/PrettyDateTime.php';
+require_once 'path/to/php-pretty-datetime/src/PrettyDateTime.php';
 ```
 
-And in either case, it can be used as such:
+## Usage
 
 ```php
 use PrettyDateTime\PrettyDateTime;
 
-PrettyDateTime::parse(new DateTime('now')); // Moments ago
-
+PrettyDateTime::parse(new DateTime('now'));         // Moments ago
 PrettyDateTime::parse(new DateTime('+ 59 second')); // Seconds from now
-
-PrettyDateTime::parse(new DateTime('+ 1 minute')); // In 1 minute
-
+PrettyDateTime::parse(new DateTime('+ 1 minute'));  // In 1 minute
 PrettyDateTime::parse(new DateTime('- 59 minute')); // 59 minutes ago
 
 // You can supply a secondary argument to provide an alternate reference
@@ -54,14 +47,12 @@ $dateTime = new DateTime('1991-05-18 00:00:00 UTC');
 PrettyDateTime::parse($dateTime, $now) // Tomorrow
 ```
 
-Tests
------
+## Tests
 
 [![Build Status](https://travis-ci.org/danielstjules/php-pretty-datetime.png)](https://travis-ci.org/danielstjules/php-pretty-datetime)
 
 From the project directory, tests can be ran using `phpunit`
 
-License
--------
+## License
 
 Released under the MIT License - see `LICENSE.txt` for details.
