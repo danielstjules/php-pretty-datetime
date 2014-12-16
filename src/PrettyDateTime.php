@@ -55,7 +55,7 @@ class PrettyDateTime
     {
         // If not provided, set $reference to the current DateTime
         if (!$reference) {
-            $reference = new \DateTime('now');
+            $reference = new \DateTime(NULL, new \DateTimeZone($dateTime->getTimezone()->getName()));
         }
 
         // Get the difference between the current date and the supplied $dateTime
