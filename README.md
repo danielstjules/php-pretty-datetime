@@ -12,7 +12,7 @@ in your composer.json file:
 
 ```
 "require": {
-    "danielstjules/php-pretty-datetime": "dev-master"
+    "danielstjules/php-pretty-datetime": "~1.0.0"
 }
 ```
 
