@@ -91,13 +91,13 @@ class PrettyDateTime
 
         if ($yesterday->format('Y/m/d') == $date) {
             return 'Yesterday';
-        } else if ($tomorrow->format('Y/m/d') == $date) {
+        } elseif ($tomorrow->format('Y/m/d') == $date) {
             return 'Tomorrow';
-        } else if ($absDiff / self::DAY <= 7) {
+        } elseif ($absDiff / self::DAY <= 7) {
             return self::prettyFormat($difference / self::DAY, 'day');
-        } else if ($absDiff / self::WEEK <= 5) {
+        } elseif ($absDiff / self::WEEK <= 5) {
             return self::prettyFormat($difference / self::WEEK, 'week');
-        } else if ($absDiff / self::MONTH < 12) {
+        } elseif ($absDiff / self::MONTH < 12) {
             return self::prettyFormat($difference / self::MONTH, 'month');
         }
 
