@@ -5,12 +5,12 @@ namespace PrettyDateTime;
 class PrettyDateTime
 {
     // The constants correspond to units of time in seconds
-    const MINUTE = 60;
-    const HOUR   = 3600;
-    const DAY    = 86400;
-    const WEEK   = 604800;
-    const MONTH  = 2628000;
-    const YEAR   = 31536000;
+    public const MINUTE = 60;
+    public const HOUR   = 3600;
+    public const DAY    = 86400;
+    public const WEEK   = 604800;
+    public const MONTH  = 2628000;
+    public const YEAR   = 31536000;
 
     /**
      * A helper used by parse() to create the human readable strings. Given a

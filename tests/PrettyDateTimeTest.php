@@ -41,44 +41,44 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase
 
     public function pastDateTimesAndStrings()
     {
-        $testData = array(
-            array('- 59 second', 'Moments ago'),
-            array('- 1 minute', '1 minute ago'),
-            array('- 1 hour', '1 hour ago'),
-            array(sprintf('- %d second', PrettyDateTime::YEAR), '1 year ago')
-        );
+        $testData = [
+            ['- 59 second', 'Moments ago'],
+            ['- 1 minute', '1 minute ago'],
+            ['- 1 hour', '1 hour ago'],
+            [sprintf('- %d second', PrettyDateTime::YEAR), '1 year ago']
+        ];
 
         // Test that DateTimes 2..59 minutes prior all say 'x minutes ago'
         for ($i = 2; $i < 60; $i++) {
-            array_push($testData, array("- $i minute", "$i minutes ago"));
+            array_push($testData, ["- $i minute", "$i minutes ago"]);
         }
 
         // Test that DateTimes 2..23 hours earlier all say 'In x hours'
         for ($i = 2; $i < 24; $i++) {
-            array_push($testData, array("- $i hour", "$i hours ago"));
+            array_push($testData, ["- $i hour", "$i hours ago"]);
         }
 
         // Within the past 2..7 days
         for ($i = 2; $i <= 7; $i++) {
-            array_push($testData, array("- $i day", "$i days ago"));
+            array_push($testData, ["- $i day", "$i days ago"]);
         }
 
         // Within the past 2..5 weeks
         for ($i = 2; $i <= 5; $i++) {
             $days = 7 * $i;
-            array_push($testData, array("- $days day", "$i weeks ago"));
+            array_push($testData, ["- $days day", "$i weeks ago"]);
         }
 
         // Within the past 2..11 months
         for ($i = 2; $i <= 11; $i++) {
             $seconds = PrettyDateTime::MONTH * $i + PrettyDateTime::HOUR;
-            array_push($testData, array("- $seconds second", "$i months ago"));
+            array_push($testData, ["- $seconds second", "$i months ago"]);
         }
 
         // Within the past 2..20 years
         for ($i = 2; $i <= 20; $i++) {
             $seconds = PrettyDateTime::YEAR * $i;
-            array_push($testData, array("- $seconds second", "$i years ago"));
+            array_push($testData, ["- $seconds second", "$i years ago"]);
         }
 
         return $testData;
@@ -107,44 +107,44 @@ class PrettyDateTimeTestCase extends PHPUnit_Framework_TestCase
 
     public function futureDateTimesAndStrings()
     {
-        $testData = array(
-            array('+ 59 second', 'Seconds from now'),
-            array('+ 1 minute', 'In 1 minute'),
-            array('+ 1 hour', 'In 1 hour'),
-            array(sprintf('+ %d second', PrettyDateTime::YEAR), 'In 1 year')
-        );
+        $testData = [
+            ['+ 59 second', 'Seconds from now'],
+            ['+ 1 minute', 'In 1 minute'],
+            ['+ 1 hour', 'In 1 hour'],
+            [sprintf('+ %d second', PrettyDateTime::YEAR), 'In 1 year']
+        ];
 
         // Test that DateTimes 2..59 minutes later all say 'In x minutes'
         for ($i = 2; $i < 60; $i++) {
-            array_push($testData, array("+ $i minute", "In $i minutes"));
+            array_push($testData, ["+ $i minute", "In $i minutes"]);
         }
 
         // Test that DateTimes 2..23 hours earlier all say 'In x hours'
         for ($i = 2; $i < 24; $i++) {
-            array_push($testData, array("+ $i hour", "In $i hours"));
+            array_push($testData, ["+ $i hour", "In $i hours"]);
         }
 
         // In the next 2..7 days
         for ($i = 2; $i <= 7; $i++) {
-            array_push($testData, array("+ $i day", "In $i days"));
+            array_push($testData, ["+ $i day", "In $i days"]);
         }
 
         // In the next 2..5 weeks
         for ($i = 2; $i <= 5; $i++) {
             $days = 7 * $i;
-            array_push($testData, array("+ $days day", "In $i weeks"));
+            array_push($testData, ["+ $days day", "In $i weeks"]);
         }
 
         // In the next 2..11 months
         for ($i = 2; $i <= 11; $i++) {
             $seconds = PrettyDateTime::MONTH * $i;
-            array_push($testData, array("+ $seconds second", "In $i months"));
+            array_push($testData, ["+ $seconds second", "In $i months"]);
         }
 
         // In the next 2..20 years
         for ($i = 2; $i <= 20; $i++) {
             $seconds = PrettyDateTime::YEAR * $i;
-            array_push($testData, array("+ $seconds second", "In $i years"));
+            array_push($testData, ["+ $seconds second", "In $i years"]);
         }
 
         return $testData;
