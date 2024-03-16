@@ -5,12 +5,12 @@ namespace PrettyDateTime;
 class PrettyDateTime
 {
     // The constants correspond to units of time in seconds
-    const MINUTE = 60;
-    const HOUR   = 3600;
-    const DAY    = 86400;
-    const WEEK   = 604800;
-    const MONTH  = 2628000;
-    const YEAR   = 31536000;
+    public const MINUTE = 60;
+    public const HOUR   = 3600;
+    public const DAY    = 86400;
+    public const WEEK   = 604800;
+    public const MONTH  = 2628000;
+    public const YEAR   = 31536000;
 
     /**
      * A helper used by parse() to create the human readable strings. Given a
@@ -55,7 +55,7 @@ class PrettyDateTime
     {
         // If not provided, set $reference to the current DateTime
         if (!$reference) {
-            $reference = new \DateTime(NULL, new \DateTimeZone($dateTime->getTimezone()->getName()));
+            $reference = new \DateTime('now', new \DateTimeZone($dateTime->getTimezone()->getName()));
         }
 
         // Get the difference between the current date and the supplied $dateTime
@@ -91,13 +91,13 @@ class PrettyDateTime
 
         if ($yesterday->format('Y/m/d') == $date) {
             return 'Yesterday';
-        } else if ($tomorrow->format('Y/m/d') == $date) {
+        } elseif ($tomorrow->format('Y/m/d') == $date) {
             return 'Tomorrow';
-        } else if ($absDiff / self::DAY <= 7) {
+        } elseif ($absDiff / self::DAY <= 7) {
             return self::prettyFormat($difference / self::DAY, 'day');
-        } else if ($absDiff / self::WEEK <= 5) {
+        } elseif ($absDiff / self::WEEK <= 5) {
             return self::prettyFormat($difference / self::WEEK, 'week');
-        } else if ($absDiff / self::MONTH < 12) {
+        } elseif ($absDiff / self::MONTH < 12) {
             return self::prettyFormat($difference / self::MONTH, 'month');
         }
 

@@ -1,5 +1,5 @@
 {
-    "name": "danielstjules/php-pretty-datetime",
+    "name": "detain/php-pretty-datetime",
     "description": "Generates human-readable strings for PHP DateTime objects",
     "keywords": ["human", "readable", "pretty", "datetime", "date", "time", "string"],
     "license": "MIT",
@@ -14,8 +14,8 @@
         "php": ">=5.3.0"
     },
     "support": {
-        "issues": "https://github.com/danielstjules/php-pretty-datetime/issues",
-        "source": "https://github.com/danielstjules/php-pretty-datetime"
+        "issues": "https://github.com/detain/php-pretty-datetime/issues",
+        "source": "https://github.com/detain/php-pretty-datetime"
     },
     "autoload": {
         "psr-4": { "PrettyDateTime\\": "src/" }
